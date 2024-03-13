@@ -32,22 +32,23 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    p0?.run{
-                        nameTextView.text = getItemAtPosition(0).toString()
-                    }
+
                 }
             }
         }
 
         findViewById<View>(R.id.deleteButton).setOnClickListener {
-            if (spinner.selectedItemPosition != 0){
-                nameTextView.text = names[spinner.selectedItemPosition-1]
-            } else nameTextView.text=names[spinner.selectedItemPosition+1]
-
-            (names as MutableList).removeAt(spinner.selectedItemPosition)
-            (spinner.adapter as BaseAdapter).notifyDataSetChanged()
-
-
+            if (names.isNotEmpty()){
+                (names as MutableList).removeAt(spinner.selectedItemPosition)
+                (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+                if (spinner.selectedItemPosition < names.size) {
+                    nameTextView.text = names[spinner.selectedItemPosition]
+                } else {
+                    nameTextView.text = "no names"
+                }
+            }else {
+                nameTextView.text = "no names"
+            }
         }
 
     }
